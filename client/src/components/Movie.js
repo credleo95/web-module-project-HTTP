@@ -4,7 +4,7 @@ import { Link, useParams, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 const Movie = (props) => {
-    const { addToFavorites } = props;
+    const { addToFavorites, deleteMovie } = props;
 
     const [movie, setMovie] = useState('');
 
@@ -21,6 +21,18 @@ const Movie = (props) => {
             })
     }, [id]);
 
+    const handleDelete = () => {
+        axios.delete(`http://localhost:5000/api/movies/${id}`)
+        .then(res => {
+            console.log('Movie.js: handleDelete: DeletedMovie:', res.data)
+            deleteMovie(id)
+            push('/movies')
+        })
+        .catch(err => {
+            console.log('handleDelete:Movie.js went wrong: ', err)
+        })
+
+    }
     return(<div className="modal-page col">
         <div className="modal-dialog">
             <div className="modal-content">
